@@ -26,10 +26,11 @@ import Cargos from './pages/Cargos'
 import Usuarios from './pages/Usuarios'
 import Auditoria from './pages/Auditoria'
 
-function Guard({ children, gestao }: { children: ReactNode; gestao?: boolean }) {
+function Guard({ children, gestao, colab }: { children: ReactNode; gestao?: boolean; colab?: boolean }) {
   const { session } = useStore()
   if (!session) return <Navigate to="/login" replace />
   if (gestao && session.profile !== 'gestao') return <Navigate to="/painel" replace />
+  if (colab && session.profile === 'gestao') return <Navigate to="/gestao/dashboard" replace />
   return <>{children}</>
 }
 
@@ -45,6 +46,7 @@ function Home() {
 }
 
 const P = ({ children }: { children: ReactNode }) => <Guard>{children}</Guard>
+const C = ({ children }: { children: ReactNode }) => <Guard colab>{children}</Guard>
 const G = ({ children }: { children: ReactNode }) => <Guard gestao>{children}</Guard>
 
 export default function App() {
@@ -54,15 +56,15 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/painel" element={<P><Painel /></P>} />
-        <Route path="/trilha" element={<P><Trilha /></P>} />
-        <Route path="/trilha/:courseId/concluir" element={<P><Concluir /></P>} />
-        <Route path="/pdi" element={<P><Pdi /></P>} />
-        <Route path="/avaliacoes" element={<P><Autoavaliacao /></P>} />
-        <Route path="/ranking" element={<P><Ranking /></P>} />
-        <Route path="/certificados" element={<P><Certificados /></P>} />
-        <Route path="/organograma" element={<P><Organograma /></P>} />
-        <Route path="/perfil" element={<P><Perfil /></P>} />
+        <Route path="/painel" element={<C><Painel /></C>} />
+        <Route path="/trilha" element={<C><Trilha /></C>} />
+        <Route path="/trilha/:courseId/concluir" element={<C><Concluir /></C>} />
+        <Route path="/pdi" element={<C><Pdi /></C>} />
+        <Route path="/avaliacoes" element={<C><Autoavaliacao /></C>} />
+        <Route path="/ranking" element={<C><Ranking /></C>} />
+        <Route path="/certificados" element={<C><Certificados /></C>} />
+        <Route path="/organograma" element={<C><Organograma /></C>} />
+        <Route path="/perfil" element={<C><Perfil /></C>} />
         <Route path="/alertas" element={<P><Alertas /></P>} />
         <Route path="/gestao/dashboard" element={<G><Dashboard /></G>} />
         <Route path="/gestao/colaboradores" element={<G><Colaboradores /></G>} />

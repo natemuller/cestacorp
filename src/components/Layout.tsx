@@ -42,14 +42,14 @@ export function Sidebar() {
         <img className="sym" src="./brand/logo-simbolo.svg" alt="" />
         <div><img className="word" src="./brand/logo-wordmark.svg" alt="Cestacorp" /><small>Evolução de Treinamentos</small></div>
       </div>
-      <div className="nav-section">Minha área</div>
-      {colab.map((i) => <Item key={i.to} {...i} />)}
-      {isG && <><div className="nav-section">Gestão</div>{gestao.map((i) => <Item key={i.to} {...i} />)}</>}
+      {isG
+        ? <><div className="nav-section">Gestão</div>{gestao.map((i) => <Item key={i.to} {...i} />)}</>
+        : <><div className="nav-section">Minha área</div>{colab.map((i) => <Item key={i.to} {...i} />)}</>}
       <div className="grow" />
       <div style={{ position: 'relative' }}>
         {open && (
           <div className="user-menu">
-            <button onClick={() => { setOpen(false); nav('/perfil') }}><UserIcon size={14} />Meu perfil</button>
+            {!isG && <button onClick={() => { setOpen(false); nav('/perfil') }}><UserIcon size={14} />Meu perfil</button>}
             <button onClick={() => { setOpen(false); reset() }}><RotateCcw size={14} />Resetar demo</button>
             <button onClick={() => { setOpen(false); logout(); toast('Sessão encerrada.'); nav('/login') }}><LogOut size={14} />Sair</button>
           </div>
@@ -95,7 +95,6 @@ function GlobalSearch() {
 export function Page({ title, sub, children, right }: { title: string; sub?: ReactNode; children: ReactNode; right?: ReactNode }) {
   const { session, db } = useStore()
   const nav = useNavigate()
-  const loc = useLocation()
   const unread = db.alerts.some((a) => a.profile === session?.profile && !a.read)
   return (
     <div className="app">
@@ -110,9 +109,6 @@ export function Page({ title, sub, children, right }: { title: string; sub?: Rea
             <span className="pill">Perfil: {session?.profile === 'gestao' ? 'Gestão' : 'Colaborador'}</span>
           </div>
         </header>
-        {session?.profile === 'gestao' && !loc.pathname.startsWith('/gestao') && loc.pathname !== '/alertas' && (
-          <div className="note amber">Visão de demonstração: esta área do menu “Minha área” exibe os dados da colaborador Natan Muller.</div>
-        )}
         {children}
       </main>
     </div>

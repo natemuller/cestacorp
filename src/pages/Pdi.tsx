@@ -1,48 +1,48 @@
 import { useState } from 'react'
 import { Page } from '../components/Layout'
 import { Avatar, Btn, Card, Field, LinkBtn, Modal, Pill, Progress, Select } from '../components/ui'
-import { useStore } from '../lib/store'
-import { ME, addAudit, course, emp } from '../lib/selectors'
+import { useMe } from '../lib/store'
+import { addAudit, course } from '../lib/selectors'
 import { TODAY, fmtDate } from '../lib/format'
 import type { PdiAction } from '../lib/types'
 
 const ST: Record<string, [string, string]> = { progress: ['Em andamento', ''], late: ['Atrasado', 'red'], done: ['Concluído', 'green'] }
 
 export default function Pdi() {
-  const { db, update, toast } = useStore()
-  const me = emp(db, ME)!
-  const pdi = db.pdi
+  const { db, p, edit, toast, first, name: meName } = useMe()
+  const me = p.self
+  const pdi = p.pdi
   const [editGoals, setEditGoals] = useState(false)
-  const [goals, setGoals] = useState(db.anaGoals)
+  const [goals, setGoals] = useState(p.goals)
   const [modal, setModal] = useState<null | 'new' | 'track'>(null)
   const [nf, setNf] = useState({ what: '', how: '', due: '2027-01-31', courseId: '' })
   const [tf, setTf] = useState({ id: pdi.actions[0].id, pct: '75', note: '' })
   const done = pdi.actions.filter((a) => a.status === 'done').length
   const linked = pdi.actions.filter((a) => a.courseId)
-  const linkedDone = linked.filter((a) => db.enrollments.find((e) => e.courseId === a.courseId)?.status === 'done').length
+  const linkedDone = linked.filter((a) => p.enrollments.find((e) => e.courseId === a.courseId)?.status === 'done').length
   const hrsAll = linked.reduce((s, a) => s + course(db, a.courseId!).hours, 0)
-  const hrsDone = linked.filter((a) => db.enrollments.find((e) => e.courseId === a.courseId)?.status === 'done').reduce((s, a) => s + course(db, a.courseId!).hours, 0)
+  const hrsDone = linked.filter((a) => p.enrollments.find((e) => e.courseId === a.courseId)?.status === 'done').reduce((s, a) => s + course(db, a.courseId!).hours, 0)
 
   const addAction = () => {
     if (!nf.what.trim()) { toast('Informe o que fazer.'); return }
-    const a: PdiAction = { id: 'p' + Date.now(), what: nf.what, how: nf.how || '—', who: 'Natan', due: nf.due, courseId: nf.courseId || null, track: '0% concluído', trackNote: `Criado em ${fmtDate(TODAY).slice(0, 5)}`, status: 'progress' }
-    update((d) => { d.pdi.actions.push(a); addAudit(d, 'Natan Muller', 'PDI', 'Criou', `Natan Muller · ${a.what}`, '', `prazo ${fmtDate(a.due)}`) })
+    const a: PdiAction = { id: 'p' + Date.now(), what: nf.what, how: nf.how || '—', who: first, due: nf.due, courseId: nf.courseId || null, track: '0% concluído', trackNote: `Criado em ${fmtDate(TODAY).slice(0, 5)}`, status: 'progress' }
+    edit((m, d) => { m.pdi.actions.push(a); addAudit(d, meName, 'PDI', 'Criou', `${meName} · ${a.what}`, '', `prazo ${fmtDate(a.due)}`) })
     setModal(null); setNf({ what: '', how: '', due: '2027-01-31', courseId: '' }); toast('Ação adicionada ao seu PDI.')
   }
   const addTrack = () => {
-    update((d) => { const a = d.pdi.actions.find((x) => x.id === tf.id)!; a.track = `${tf.pct}% concluído`; a.trackNote = `Atualizado em ${fmtDate(TODAY).slice(0, 5)} por Natan${tf.note ? ` · ${tf.note}` : ''}`; if (a.status === 'late') a.status = 'progress'
-      if (+tf.pct === 100) { a.status = 'done'; a.track = `Concluído em ${fmtDate(TODAY).slice(0, 5)}`; d.employees.find((x) => x.id === ME)!.points += 50 }
-      addAudit(d, 'Natan Muller', 'PDI', 'Editou', `Natan Muller · ${a.what}`, '', `${tf.pct}% concluído`) })
+    edit((m, d) => { const a = m.pdi.actions.find((x) => x.id === tf.id)!; a.track = `${tf.pct}% concluído`; a.trackNote = `Atualizado em ${fmtDate(TODAY).slice(0, 5)} por ${first}${tf.note ? ` · ${tf.note}` : ''}`; if (a.status === 'late') a.status = 'progress'
+      if (+tf.pct === 100) { a.status = 'done'; a.track = `Concluído em ${fmtDate(TODAY).slice(0, 5)}`; m.self.points += 50 }
+      addAudit(d, meName, 'PDI', 'Editou', `${meName} · ${a.what}`, '', `${tf.pct}% concluído`) })
     setModal(null); toast(+tf.pct === 100 ? 'Ação concluída! +50 pontos.' : 'Acompanhamento registrado.')
   }
-  const saveGoals = () => { update((d) => { d.anaGoals = goals }); setEditGoals(false); toast('Objetivos atualizados.') }
+  const saveGoals = () => { edit((m) => { m.goals = goals }); setEditGoals(false); toast('Objetivos atualizados.') }
 
   return (
-    <Page title="Meu Plano de Desenvolvimento Individual" sub={`PDI 2026 · gerado a partir da ${pdi.generatedFrom.replace('Avaliação', 'Avaliação').replace('de 15/02/2026', 'de 15/02/2026')}`}>
+    <Page title="Meu Plano de Desenvolvimento Individual" sub={`PDI 2026 · gerado a partir da ${pdi.generatedFrom}`}>
       <Card className="row" style={{ gap: 24, padding: '18px 24px' }}>
         <Avatar name={me.name} size={44} />
-        <div style={{ flex: 1 }}><b style={{ fontSize: 15 }}>Natan Muller</b><div className="muted sm">Analista Fiscal Júnior · Gestora: Luana Thurow (Sócia-diretora)</div></div>
-        <div><div className="muted xs">Vigência</div><b style={{ fontSize: 15 }}>Mar/2026 – Fev/2027</b></div>
+        <div style={{ flex: 1 }}><b style={{ fontSize: 15 }}>{meName}</b><div className="muted sm">{p.roleName} · {p.self.id === 'ana' ? 'Gestora' : 'Responsável'}: {p.managerName} ({p.managerTitle})</div></div>
+        <div><div className="muted xs">Vigência</div><b style={{ fontSize: 15 }}>{pdi.period}</b></div>
         <div><div className="muted xs">Ações</div><b style={{ fontSize: 15 }}>{pdi.actions.length} ({done} concluídas)</b></div>
         <div><div className="muted xs">Próximo acompanhamento</div><b style={{ fontSize: 15 }}>{fmtDate(pdi.next)}</b></div>
         <Pill>Em andamento</Pill>
@@ -50,7 +50,7 @@ export default function Pdi() {
       <div className="grid2" style={{ gridTemplateColumns: '1.45fr 1fr', alignItems: 'start', gap: 20 }}>
         <Card>
           <div className="card-head"><h2>Objetivos profissionais para os próximos 5 anos</h2><LinkBtn onClick={() => (editGoals ? saveGoals() : setEditGoals(true))}>{editGoals ? 'Salvar' : 'Editar'}</LinkBtn></div>
-          {editGoals ? <textarea className="textarea" rows={3} value={goals} onChange={(e) => setGoals(e.target.value)} /> : <p style={{ lineHeight: 1.6 }}>“{db.anaGoals}”</p>}
+          {editGoals ? <textarea className="textarea" rows={3} value={goals} onChange={(e) => setGoals(e.target.value)} /> : <p style={{ lineHeight: 1.6 }}>“{p.goals}”</p>}
           <div className="row between" style={{ marginTop: 22, position: 'relative' }}>
             <div style={{ position: 'absolute', left: 10, right: 10, top: 6, height: 2, background: 'var(--line)' }} />
             {pdi.path.map((p, i) => (

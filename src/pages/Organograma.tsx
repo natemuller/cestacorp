@@ -3,24 +3,26 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Page } from '../components/Layout'
 import { Btn, Card, LinkBtn, Pill, Tabs } from '../components/ui'
 import OrgChart from '../components/OrgChart'
-import { useStore } from '../lib/store'
-import { ME, doneTrail, emp, peopleInRole, role, trailItems } from '../lib/selectors'
+import { useMe } from '../lib/store'
+import { doneTrail, peopleInRole, role, trailItems } from '../lib/selectors'
 import { brl, tenureLong } from '../lib/format'
 
 type Tb = 'org' | 'cargos' | 'trilhas' | 'carreira'
 const DET = ['Responsabilidades', 'Conhecimentos', 'Habilidades', 'Atitudes', 'Indicadores', 'Formação', 'Experiência'] as const
 
 export default function Organograma() {
-  const { db, toast } = useStore()
+  const { db, p, toast } = useMe()
   const nav = useNavigate()
   const g = useLocation().pathname.startsWith('/gestao')
-  const me = emp(db, ME)!
-  const [sel, setSel] = useState(me.roleId)
+  const me = p.self
+  const myRole = role(db, me.roleId)
+  const home = myRole ? me.roleId : 'fiscal-coord'
+  const [sel, setSel] = useState(home)
   const [tab, setTab] = useState<Tb>('org')
   const [det, setDet] = useState<(typeof DET)[number]>('Responsabilidades')
   const r = role(db, sel)!
   const chain = db.roles.filter((x) => x.area === r.area && x.id.startsWith(r.id.split('-')[0])).sort((a, b) => b.max - a.max)
-  const mine = sel === me.roleId
+  const mine = !!myRole && sel === me.roleId
   const j = role(db, 'fiscal-junior')!
   const src = r.responsibilities ? r : j
   const content: Record<string, string[]> = {
@@ -64,11 +66,11 @@ export default function Organograma() {
               <div className="kv"><small>Trilha obrigatória</small><b>{r.trackCourses ?? 5} cursos · {r.trackHours ?? 20}h</b></div>
               <div className="kv"><small>Formação</small><b>{src.education}</b></div>
               <div className="kv"><small>Experiência</small><b>{src.experience}</b></div></> : <>
-              <div className="kv"><small>Trilha obrigatória do cargo</small><b>{doneTrail(db)} de {trailItems(db).length} concluídos</b></div>
+              <div className="kv"><small>Trilha obrigatória do cargo</small><b>{doneTrail(p)} de {trailItems(p).length} concluídos</b></div>
               <div className="kv"><small>Próximo nível</small><b>{nextRole?.name ?? '—'}</b></div>
               <div className="kv"><small>Tempo no cargo</small><b>{tenureLong(me.admission)}</b></div></>}
           </div>
-          {!g && !mine && <p className="muted xs" style={{ marginTop: 10 }}><LinkBtn onClick={() => setSel(me.roleId)}>Voltar ao meu cargo</LinkBtn></p>}
+          {!g && !mine && <p className="muted xs" style={{ marginTop: 10 }}><LinkBtn onClick={() => setSel(home)}>Voltar ao meu cargo</LinkBtn></p>}
         </Card>
       </div>
     </Page>

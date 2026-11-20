@@ -36,7 +36,7 @@ Na primeira vez que for rodar os testes: `npx playwright install chromium`.
 | Gestão | `gestor@email.com` | `cesta123` | Luana Thurow · Sócia-diretora |
 
 O perfil é identificado pelo e-mail,
-como previsto no Figma. O menu **Gestão** só aparece (e só é acessível) para o perfil Gestão.
+como previsto no Figma. Cada perfil só enxerga as telas do próprio fluxo (o Gestão não vê as telas de colaborador e vice-versa).
 
 Para trocar de perfil: clique no cartão do usuário (canto inferior esquerdo) → **Sair**.
 Para **voltar ao estado inicial** dos dados: mesmo menu → **Resetar demo** (recomendado antes de cada apresentação).
@@ -49,7 +49,7 @@ Cada tela segue o frame correspondente do Figma (`00 · Login` a `23 · Usuário
 `Login` · `Meu Painel` · `Minha Trilha` · `Registrar conclusão` · `Meu PDI` · `Ranking & Pins` · `Organograma` ·
 `Autoavaliação` · `Certificados` · `Meu perfil` · `Central de alertas`
 
-**Gestão** (inclui também as telas de colaborador, como no Figma)
+**Gestão**
 `Dashboard` · `Avaliação de Desempenho` · `Organograma & Cargos` · `Trilhas & Cursos` · `Plano de Cargos e Salários` ·
 `Consenso da avaliação` · `Ciclos de avaliação` · `Colaboradores` · `Novo colaborador (onboarding)` · `Auditoria` ·
 `PDI do liderado` · `Feedback de integração 25/50/75` · `Usuários & Acessos`
@@ -103,5 +103,5 @@ e2e/            Testes Playwright (jornada completa, permissões, persistência�
 - Sem backend: e-mails, convites, download de certificados e abertura de cursos externos são **simulados** (aviso na tela).
 - Uploads de arquivo não saem do navegador (apenas nome/tamanho são guardados).
 - Layout otimizado para desktop (≥ 1280 px); mobile está fora do escopo.
-- Telas “Minha área” abertas pelo perfil Gestão mostram os dados da Natan (há um aviso na tela).
+- Os perfis têm menus separados, como no Figma: Colaborador (Meu Painel, Trilha, PDI, Avaliações, Ranking, Certificados, Organograma) e Gestão (Dashboard, Colaboradores, Trilhas, Avaliações Anuais, Organograma & Cargos, Usuários, Auditoria). O gestor não tem “Meu PDI” nem demais telas de colaborador; ele vê os dados do colaborador pelas telas de gestão.
 - A Gincana Solidária (US13) não faz parte do protótipo, conforme o mapa de telas do Figma.

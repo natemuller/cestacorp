@@ -2,14 +2,14 @@ import { useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Page } from '../components/Layout'
 import { Btn, Card, Pager, Pill, Select, Tabs } from '../components/ui'
-import { useStore } from '../lib/store'
+import { useMe } from '../lib/store'
 import { STATUS_LABEL, STATUS_TONE, course, doneTrail, hoursYear, statusOf, trailItems, trailPct } from '../lib/selectors'
 import { brl, fmtDate } from '../lib/format'
 
 type F = 'todos' | 'obrig' | 'pdi' | 'done' | 'overdue'
 
 export default function Trilha() {
-  const { db, update, toast } = useStore()
+  const { db, p, edit, toast } = useMe()
   const nav = useNavigate()
   const [sp, setSp] = useSearchParams()
   const f = (sp.get('f') as F) || 'todos'
@@ -18,7 +18,7 @@ export default function Trilha() {
   const [prazo, setPrazo] = useState('Prazo: todos')
   const [page, setPage] = useState(1)
 
-  const all = db.enrollments.map((e) => ({ e, c: course(db, e.courseId), st: statusOf(e) }))
+  const all = p.enrollments.map((e) => ({ e, c: course(db, e.courseId), st: statusOf(e) }))
   const counts = { todos: all.length, obrig: all.filter((r) => r.e.origin === 'Trilha').length, pdi: all.filter((r) => r.e.origin === 'PDI').length, done: all.filter((r) => r.st === 'done' || r.st === 'validating').length, overdue: all.filter((r) => r.st === 'overdue').length }
   const rows = useMemo(() => all.filter((r) =>
     (f === 'todos' || (f === 'obrig' && r.e.origin === 'Trilha') || (f === 'pdi' && r.e.origin === 'PDI') || (f === 'done' && (r.st === 'done' || r.st === 'validating')) || (f === 'overdue' && r.st === 'overdue')) &&
@@ -31,21 +31,21 @@ export default function Trilha() {
   const invest = all.filter((r) => r.st === 'done' || r.st === 'validating').reduce((a, r) => a + r.c.value, 0)
   const setF = (v: F) => { setSp(v === 'todos' ? {} : { f: v }); setPage(1) }
 
-  const certFor = (id: string) => db.certificates.find((c) => c.courseId === id)
+  const certFor = (id: string) => p.certificates.find((c) => c.courseId === id)
   const open = (id: string) => {
-    update((d) => { const e = d.enrollments.find((x) => x.courseId === id)!; if (e.status === 'todo') e.status = 'inprogress' })
+    edit((m) => { const e = m.enrollments.find((x) => x.courseId === id)!; if (e.status === 'todo') e.status = 'inprogress' })
     toast('Curso aberto na plataforma da entidade (simulado). Status: Em andamento.')
   }
   return (
-    <Page title="Minha Trilha de Conhecimentos" sub="Treinamentos obrigatórios do cargo Analista Fiscal Júnior + ações do seu PDI">
+    <Page title="Minha Trilha de Conhecimentos" sub={`Treinamentos obrigatórios do cargo ${p.roleName} + ações do seu PDI`}>
       <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 24px' }}>
         {[
-          ['Cumprimento obrigatório', <b style={{ color: 'var(--green-ink)', fontSize: 22 }}>{trailPct(db)}%</b>],
-          ['Concluídos', <b style={{ fontSize: 22 }}>{doneTrail(db)} / {trailItems(db).length}</b>],
+          ['Cumprimento obrigatório', <b style={{ color: 'var(--green-ink)', fontSize: 22 }}>{trailPct(p)}%</b>],
+          ['Concluídos', <b style={{ fontSize: 22 }}>{doneTrail(p)} / {trailItems(p).length}</b>],
           ['Em andamento', <b style={{ fontSize: 22 }}>{all.filter((r) => r.st === 'inprogress').length}</b>],
           ['Vencidos', <b style={{ fontSize: 22, color: 'var(--red)' }}>{counts.overdue}</b>],
           ['Ações do PDI vinculadas', <b style={{ fontSize: 22 }}>{counts.pdi}</b>],
-          ['Horas no ano', <b style={{ fontSize: 22 }}>{hoursYear(db)}h / 60h</b>],
+          ['Horas no ano', <b style={{ fontSize: 22 }}>{hoursYear(p)}h / {p.painel.hoursGoal}h</b>],
         ].map(([l, v], i) => <div key={i}><div className="muted xs" style={{ marginBottom: 6 }}>{l}</div>{v}</div>)}
       </Card>
       <div className="toolbar">

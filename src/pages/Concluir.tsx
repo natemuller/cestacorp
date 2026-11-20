@@ -3,33 +3,33 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Calendar, FileText, Upload } from 'lucide-react'
 import { Page } from '../components/Layout'
 import { Btn, Card, Field, Pill, Scale } from '../components/ui'
-import { useStore } from '../lib/store'
-import { ME, addAudit, pushAlert, trailPct, doneTrail, trailItems } from '../lib/selectors'
+import { useMe } from '../lib/store'
+import { addAudit, pushAlert, trailPct, doneTrail, trailItems } from '../lib/selectors'
 import { MONTHS, TODAY, addMonths, brl, fmtDate } from '../lib/format'
 
 const QUAL = [['content', 'Conteúdo e material'], ['teacher', 'Instrutor / plataforma'], ['load', 'Carga horária adequada'], ['org', 'Organização do curso']] as const
 
 export default function Concluir() {
   const { courseId } = useParams()
-  const { db, update, toast } = useStore()
+  const { db, p, id: meId, edit, isGestora, name: meName, toast } = useMe()
   const nav = useNavigate()
   const c = db.courses.find((x) => x.id === courseId)
-  const enr = db.enrollments.find((x) => x.courseId === courseId)
+  const enr = p.enrollments.find((x) => x.courseId === courseId)
   const fileRef = useRef<HTMLInputElement>(null)
   const norm = (t: string) => t.toLowerCase().normalize('NFD').replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '_')
   const slug = `${norm((c?.name ?? 'curso').split(' ').slice(0, 2).join(' '))}_${norm((c?.entity ?? '').split(' ')[0])}`
   const [date, setDate] = useState(TODAY)
   const [code, setCode] = useState(`${(c?.entity ?? 'CESTA').split(' ')[0].toUpperCase()}-2026-40${String(courseId?.replace('c', '') ?? '24').padStart(2, '0')}-88172`)
   const [file, setFile] = useState<{ name: string; size: string } | null>({ name: `certificado_${slug}.pdf`, size: '412 KB' })
-  const [report, setReport] = useState('O curso abordou clareza na escrita de e-mails a clientes, revisão gramatical e linguagem corporal em reuniões. Vou aplicar nos retornos sobre apuração de impostos enviados pelo HUBLX.')
+  const [report, setReport] = useState(isGestora ? 'O curso trouxe técnicas práticas que vou aplicar nas reuniões de acompanhamento com a equipe e na gestão da carteira de clientes.' : 'O curso abordou clareza na escrita de e-mails a clientes, revisão gramatical e linguagem corporal em reuniões. Vou aplicar nos retornos sobre apuração de impostos enviados pelo HUBLX.')
   const [q, setQ] = useState<Record<string, number>>({ content: 4, teacher: 5, load: 3, org: 4 })
   const [eff, setEff] = useState(4)
-  const [ex, setEx] = useState('Revisar o modelo de e-mail de envio das guias mensais antes de enviar aos clientes.')
+  const [ex, setEx] = useState(isGestora ? 'Aplicar a técnica na próxima reunião mensal de indicadores com os coordenadores.' : 'Revisar o modelo de e-mail de envio das guias mensais antes de enviar aos clientes.')
   const [errs, setErrs] = useState<Record<string, string>>({})
   if (!c || !enr || enr.origin !== 'Trilha') return <Navigate to="/trilha" replace />
 
   const valid = addMonths(date, 24)
-  const before = trailPct(db), after = Math.round(((doneTrail(db) + (enr.status === 'done' || enr.status === 'validating' ? 0 : 1)) / trailItems(db).length) * 100)
+  const before = trailPct(p), after = Math.round(((doneTrail(p) + (enr.status === 'done' || enr.status === 'validating' ? 0 : 1)) / trailItems(p).length) * 100)
   const monthRef = `${['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][+date.slice(5, 7) - 1]}/${date.slice(0, 4)}`
 
   const submit = () => {
@@ -39,21 +39,22 @@ export default function Concluir() {
     if (report.trim().length < 20) e.report = 'Escreva um resumo do aprendizado (mín. 20 caracteres).'
     setErrs(e)
     if (Object.keys(e).length) { toast('Revise os campos destacados.'); return }
-    update((d) => {
-      const en = d.enrollments.find((x) => x.courseId === courseId)!
+    edit((m, d) => {
+      const en = m.enrollments.find((x) => x.courseId === courseId)!
       en.status = 'validating'; en.doneAt = date
-      const fresh = { id: 'cert' + Date.now(), ownerId: ME, title: c.name, ext: file!.name.split('.').pop() ?? 'pdf', size: file!.size, source: c.entity, code, issued: date, expires: valid, status: 'validating' as const, courseId: c.id }
-      const old = d.certificates.findIndex((x) => x.courseId === c.id && x.ownerId === ME)
-      if (old >= 0) d.certificates[old] = { ...fresh, id: d.certificates[old].id }; else d.certificates.unshift(fresh)
-      d.employees.find((x) => x.id === ME)!.points += 30
-      d.hoursByMonth[9] += c.hours
-      const act = d.pdi.actions.find((a) => a.courseId === c.id)
+      const fresh = { id: 'cert' + Date.now(), ownerId: meId, title: c.name, ext: file!.name.split('.').pop() ?? 'pdf', size: file!.size, source: c.entity, code, issued: date, expires: valid, status: 'validating' as const, courseId: c.id }
+      const old = m.certificates.findIndex((x) => x.courseId === c.id && x.ownerId === meId)
+      if (old >= 0) m.certificates[old] = { ...fresh, id: m.certificates[old].id }; else m.certificates.unshift(fresh)
+      m.self.points += 30
+      m.hoursByMonth[9] += c.hours
+      const act = m.pdi.actions.find((a) => a.courseId === c.id)
       if (act) { act.track = 'Certificado em validação'; act.trackNote = `Enviado em ${fmtDate(date).slice(0, 5)}` }
-      addAudit(d, 'Natan Muller', 'Trilha', 'Enviou', `${c.name} · conclusão`, '', `certificado + avaliação ${Math.round(Object.values(q).reduce((a, b) => a + b, 0) / 4)}/5`)
-      pushAlert(d, 'gestao', { cat: 'cert', tone: 'teal', title: `Natan Muller enviou ${c.name} para validação`, text: 'Certificado aguardando validação da gestão.', to: '/gestao/auditoria', cta: 'Ver auditoria' })
-      if (!d.pins.find((p) => p.id === 'trilha100')!.got && doneTrail(db) + 1 >= trailItems(db).length) d.pins.find((p) => p.id === 'trilha100')!.got = true
+      addAudit(d, meName, 'Trilha', 'Enviou', `${c.name} · conclusão`, '', `certificado + avaliação ${Math.round(Object.values(q).reduce((a, b) => a + b, 0) / 4)}/5`)
+      if (!isGestora) pushAlert(d, 'gestao', { cat: 'cert', tone: 'teal', title: `${meName} enviou ${c.name} para validação`, text: 'Certificado aguardando validação da gestão.', to: '/gestao/auditoria', cta: 'Ver auditoria' })
+      const pin = m.pins.find((x) => x.id === 'trilha100')!
+      if (!pin.got && doneTrail(p) + 1 >= trailItems(p).length) pin.got = true
     })
-    toast(`Conclusão enviada para validação da gestora. +30 pontos!`)
+    toast(`Conclusão enviada para validação ${isGestora ? 'da diretoria' : 'da gestora'}. +30 pontos!`)
     nav('/trilha')
   }
 
@@ -103,10 +104,10 @@ export default function Concluir() {
             <Scale value={eff} onChange={setEff} />
             <div className="lbl" style={{ marginTop: 16 }}>Exemplo de aplicação prática</div>
             <textarea className="textarea" rows={3} value={ex} onChange={(e) => setEx(e.target.value)} />
-            <div className="note" style={{ marginTop: 12, background: 'var(--bg)', color: 'var(--muted)' }}>Sua gestora confirma a eficácia em 30 dias, a partir da sua avaliação.</div>
+            <div className="note" style={{ marginTop: 12, background: 'var(--bg)', color: 'var(--muted)' }}>{isGestora ? 'Seu sócio-fundador confirma' : 'Sua gestora confirma'} a eficácia em 30 dias, a partir da sua avaliação.</div>
           </Card>
           <div className="banner green" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-            <b>Ao enviar para validação da gestora</b>
+            <b>Ao enviar para validação {isGestora ? 'da diretoria' : 'da gestora'}</b>
             <p>✓ +30 pontos e progresso no pin “Trilha 100%”</p>
             <p>✓ +{c.hours}h no seu histórico de horas de {MONTHS[+date.slice(5, 7) - 1].toLowerCase()}</p>
             <p>✓ Trilha obrigatória sobe de {before}% para {after}%</p>

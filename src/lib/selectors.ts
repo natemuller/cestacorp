@@ -1,22 +1,24 @@
-import type { DB, Employee, Enrollment, Level } from './types'
+import { ANA } from './ana'
+import type { DB, Employee, Enrollment, Level, Personal } from './types'
 import { TODAY, fmtDateTime } from './format'
 
-export const ME = 'ana'
+export const ME = ANA
 export const emp = (db: DB, id: string) => db.employees.find((e) => e.id === id)
 export const role = (db: DB, id: string) => db.roles.find((r) => r.id === id)
 export const course = (db: DB, id: string) => db.courses.find((c) => c.id === id)!
 export const roleName = (db: DB, e: Employee) => role(db, e.roleId)?.name ?? ''
 export const peopleInRole = (db: DB, roleId: string) => db.employees.filter((e) => e.roleId === roleId && e.status !== 'inactive').length + (role(db, roleId)?.extraPeople ?? 0)
 
-export const trailItems = (db: DB) => db.enrollments.filter((e) => e.origin === 'Trilha')
-export const doneTrail = (db: DB) => trailItems(db).filter((e) => e.status === 'done' || e.status === 'validating').length
-export const trailPct = (db: DB) => Math.round((doneTrail(db) / trailItems(db).length) * 100)
-export const hoursYear = (db: DB) => db.hoursByMonth.reduce((a, b) => a + b, 0)
-export const meRank = (db: DB) => {
-  const ranked = [...db.employees].filter((e) => e.status !== 'inactive').sort((a, b) => b.points - a.points)
-  const pos = ranked.findIndex((e) => e.id === ME) + 1
-  const area = ranked.filter((e) => e.area === emp(db, ME)!.area)
-  return { ranked, pos, areaPos: area.findIndex((e) => e.id === ME) + 1, above: ranked[pos - 2] }
+export const trailItems = (db: { enrollments: Enrollment[] }) => db.enrollments.filter((e) => e.origin === 'Trilha')
+export const doneTrail = (db: { enrollments: Enrollment[] }) => trailItems(db).filter((e) => e.status === 'done' || e.status === 'validating').length
+export const trailPct = (db: { enrollments: Enrollment[] }) => Math.round((doneTrail(db) / trailItems(db).length) * 100)
+export const hoursYear = (db: { hoursByMonth: number[] }) => db.hoursByMonth.reduce((a, b) => a + b, 0)
+export const meRank = (db: DB, p: Personal) => {
+  const base = db.employees.filter((e) => e.status !== 'inactive')
+  const ranked = [...(base.some((e) => e.id === p.self.id) ? base : [...base, p.self])].sort((a, b) => b.points - a.points)
+  const pos = ranked.findIndex((e) => e.id === p.self.id) + 1
+  const area = ranked.filter((e) => e.area === p.self.area)
+  return { ranked, pos, areaPos: area.findIndex((e) => e.id === p.self.id) + 1, above: ranked[pos - 2] }
 }
 export const statusOf = (e: Enrollment): Enrollment['status'] => (e.status !== 'done' && e.status !== 'validating' && e.due < TODAY ? 'overdue' : e.status)
 export const STATUS_LABEL: Record<string, string> = { done: 'Concluído', inprogress: 'Em andamento', todo: 'Não iniciado', overdue: 'Vencido', validating: 'Em validação' }

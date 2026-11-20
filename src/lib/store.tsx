@@ -1,10 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { DB, Session } from './types'
+import type { DB, Personal, Session } from './types'
+import { mineOf } from './personal'
+import { ANA } from './ana'
 import { buildSeed } from './seed'
 import { TODAY } from './format'
 
-const DB_KEY = 'cestacorp-demo-db-v2'
-const SESSION_KEY = 'cestacorp-demo-session-v2'
+const DB_KEY = 'cestacorp-demo-db-v3'
+const SESSION_KEY = 'cestacorp-demo-session-v3'
 
 export const DEMO_ACCOUNTS = [
   { email: 'colaborador@email.com', password: 'cesta123', profile: 'colaborador' as const, personId: 'ana', name: 'Natan Muller', subtitle: 'Analista Fiscal Júnior', initials: 'NM' },
@@ -57,3 +59,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   return <StoreCtx.Provider value={value}>{children}</StoreCtx.Provider>
 }
 export const useStore = () => { const c = useContext(StoreCtx); if (!c) throw new Error('StoreProvider ausente'); return c }
+
+/** Dados pessoais ("Minha área") do usuário logado: Natan (colaborador) ou Luana (gestora). */
+export const useMe = () => {
+  const { db, update, toast } = useStore()
+  const id = ANA
+  const p = mineOf(db, id)
+  const edit = (fn: (m: Personal, d: DB) => void) => update((d) => fn(mineOf(d, id), d))
+  return { db, p, id, edit, update, toast, isGestora: id !== ANA, name: p.self.name, first: p.self.name.split(' ')[0] }
+}

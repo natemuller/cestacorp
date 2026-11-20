@@ -64,6 +64,6 @@ export function buildSeed(): DB {
     hoursByMonth: [4, 6, 3, 8, 5, 2, 7, 4, 1, 6],
     prefs: { atraso: [true, true], cert: [true, true], prazos: [true, false], aval: [true, true], conq: [true, false] },
     profileExtra: { phone: '(51) 9 8888-0000', modality: 'Híbrido · terças e quintas no escritório', education: 'Ciências Contábeis (7º semestre)' },
-    anaGoals: pdiData.ana.goals,
+    goals: pdiData.ana.goals,
   }
 }

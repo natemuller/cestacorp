@@ -63,6 +63,18 @@ export interface DB {
   trackLinks: TrackLink[]
   hoursByMonth: number[]; prefs: Record<string, [boolean, boolean]>
   profileExtra: { phone: string; modality: string; education: string }
-  anaGoals: string
+  goals: string
+}
+export interface Personal {
+  self: Employee; roleName: string; managerName: string; managerTitle: string
+  enrollments: Enrollment[]; certificates: Certificate[]; pdi: DB['pdi']; pins: Pin[]
+  hoursByMonth: number[]; profileExtra: DB['profileExtra']; goals: string
+  evaluation: EvalRecord; cycle: CycleRow
+  history: [string, string, string, string][]
+  painel: {
+    banner: { tone: string; title: string; text: string; cta: string; to: string }
+    trailFoot: string; hoursFoot: string; hoursGoal: number; areaLabel: string; chartNote: string
+    results: [string, string, number, string][]
+  }
 }
 export interface Session { email: string; profile: 'colaborador' | 'gestao'; personId: string; name: string; subtitle: string; initials: string }

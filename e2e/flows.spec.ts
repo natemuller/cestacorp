@@ -150,7 +150,24 @@ test('login não exibe credenciais e saudações respeitam o perfil', async ({ p
   await expect(page.getByText('senha: cesta123')).toHaveCount(0)
   await login(page, GESTOR)
   await expect(page.getByRole('heading', { name: 'Dashboard de Treinamentos' })).toBeVisible()
-  await page.goto('/#/painel')
-  await expect(page.getByRole('heading', { name: 'Olá, Luana 👋' })).toBeVisible()
-  await expect(page.locator('body')).not.toContainText(/Marieri|Gazen|Ana Souza|Olá, Natan/)
+  await expect(page.locator('body')).not.toContainText(/Marieri|Gazen|Ana Souza|Olá,/)
+})
+
+test('gestor: só enxerga telas de gestão, sem "Minha área" nem saudação de colaborador', async ({ page }) => {
+  const errs = errors(page)
+  await login(page, GESTOR)
+  await expect(page).toHaveURL(/gestao\/dashboard/)
+  await expect(page.locator('.sidebar')).not.toContainText('Minha área')
+  for (const t of ['Meu Painel', 'Minha Trilha', 'Meu PDI', 'Minhas Avaliações', 'Ranking & Pins', 'Certificados']) await expect(page.locator('.sidebar')).not.toContainText(t)
+  for (const t of ['Dashboard', 'Colaboradores', 'Trilhas & Cursos', 'Avaliações Anuais', 'Organograma & Cargos', 'Usuários & Acessos', 'Auditoria']) await expect(page.locator('.sidebar')).toContainText(t)
+  for (const r of ['painel', 'trilha', 'pdi', 'avaliacoes', 'ranking', 'certificados', 'organograma', 'perfil']) {
+    await page.goto(`/#/${r}`)
+    await expect(page).toHaveURL(/gestao\/dashboard/)
+  }
+  await expect(page.locator('body')).not.toContainText(/Olá,/)
+  // visão da gestão sobre o colaborador continua disponível
+  await page.goto('/#/gestao/colaboradores/ana')
+  await expect(page.getByRole('heading', { name: /Perfil · Natan Muller/ })).toBeVisible()
+  await expect(page.getByText('Minha trilha')).toHaveCount(0)
+  expect(errs).toEqual([])
 })

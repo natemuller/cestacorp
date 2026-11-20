@@ -1,31 +1,31 @@
 import { useState } from 'react'
 import { Page } from '../components/Layout'
 import { Btn, Card, LevelPicker, Pill, Stepper } from '../components/ui'
-import { useStore } from '../lib/store'
-import { ME, addAudit, getEval, pushAlert } from '../lib/selectors'
+import { useMe } from '../lib/store'
+import { addAudit, pushAlert } from '../lib/selectors'
 import { TODAY, fmtShort } from '../lib/format'
 import criteria from '../data/criteria.json'
 import type { Level } from '../lib/types'
 
-const RESULTS: [string, string, number, string][] = [['Apurações entregues no prazo', '96% / 100%', 96, 'amber'], ['Retrabalho em notas', '1,5% / < 2%', 100, ''], ['Trilha obrigatória do cargo', '72% / 100%', 72, 'amber'], ['Satisfação dos clientes', '9,2 / ≥ 9', 100, '']]
 export default function Autoavaliacao() {
-  const { db, update, toast } = useStore()
-  const ev = getEval(db, ME)
-  const sent = db.cycleRows[ME].auto === 'sent'
+  const { p, edit, toast, isGestora, name: meName } = useMe()
+  const ev = p.evaluation
+  const sent = p.cycle.auto === 'sent'
   const [auto, setAuto] = useState(ev.auto)
   const [comment, setComment] = useState(ev.autoComment)
   const [goals, setGoals] = useState(ev.goals)
   const [showMissing, setShowMissing] = useState(false)
   const answered = criteria.filter((c) => auto[c.id]).length
   const groups = ['Conhecimentos', 'Habilidades', 'Atitudes']
-  const persist = (send: boolean) => update((d) => {
-    const e = d.evaluations[ME] ?? (d.evaluations[ME] = getEval(d, ME))
+  const persist = (send: boolean) => edit((m, d) => {
+    const e = m.evaluation
     e.auto = auto; e.autoComment = comment; e.goals = goals
     if (send) {
-      d.cycleRows[ME].auto = 'sent'; d.cycleRows[ME].gestora = 'pending'; d.cycleStages[0].done += 1
-      addAudit(d, 'Natan Muller', 'Avaliações', 'Enviou', 'Autoavaliação · Ciclo 2026', '', `${answered}/9 critérios`)
-      pushAlert(d, 'gestao', { cat: 'aval', tone: 'teal', title: 'Natan Muller enviou a autoavaliação', text: 'Sua avaliação da gestora já pode ser iniciada.', to: '/gestao/avaliacao/ana', cta: 'Avaliar agora' })
-      d.alerts.filter((a) => a.id === 'a3').forEach((a) => (a.read = true))
+      m.cycle.auto = 'sent'; m.cycle.gestora = 'pending'
+      if (!isGestora) d.cycleStages[0].done += 1
+      addAudit(d, meName, 'Avaliações', 'Enviou', 'Autoavaliação · Ciclo 2026', '', `${answered}/9 critérios`)
+      if (!isGestora) pushAlert(d, 'gestao', { cat: 'aval', tone: 'teal', title: `${meName} enviou a autoavaliação`, text: 'Sua avaliação da gestora já pode ser iniciada.', to: '/gestao/avaliacao/ana', cta: 'Avaliar agora' })
+      if (!isGestora) d.alerts.filter((a) => a.id === 'a3').forEach((a) => (a.read = true))
     }
   })
   const send = () => { if (answered < 9) { setShowMissing(true); toast(`Responda os ${9 - answered} critérios pendentes antes de enviar.`); return } persist(true); toast('Autoavaliação enviada à gestora!') }
@@ -47,7 +47,7 @@ export default function Autoavaliacao() {
         </Card>
         <div className="stack">
           <Card><div className="card-head"><h2 style={{ fontSize: 17 }}>Resultados esperados</h2><span className="muted xs">meta × realizado</span></div>
-            {RESULTS.map(([l, v, p, t]) => <div key={l} style={{ marginBottom: 12 }}><div className="row between sm" style={{ marginBottom: 4 }}><span>{l}</span><b>{v}</b></div><div className={`progress ${t}`}><i style={{ width: `${p}%` }} /></div></div>)}
+            {p.painel.results.map(([l, v, p, t]) => <div key={l} style={{ marginBottom: 12 }}><div className="row between sm" style={{ marginBottom: 4 }}><span>{l}</span><b>{v}</b></div><div className={`progress ${t}`}><i style={{ width: `${p}%` }} /></div></div>)}
             <p className="muted xs">Números preenchidos pela gestão. Você pode comentar, mas não editar.</p></Card>
           <Card><h2 style={{ fontSize: 17, marginBottom: 12 }}>Objetivos para os próximos 5 anos</h2><textarea className="textarea" disabled={sent} rows={4} value={goals} onChange={(e) => setGoals(e.target.value)} /></Card>
           <div className="btn-row">{sent ? <Pill tone="green">Autoavaliação enviada · aguardando a gestora</Pill> : <><Btn kind="outline" onClick={() => { persist(false); toast('Rascunho salvo.') }}>Salvar rascunho</Btn><Btn onClick={send}>Enviar autoavaliação</Btn></>}</div>

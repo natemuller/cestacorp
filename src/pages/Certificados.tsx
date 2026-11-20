@@ -3,21 +3,21 @@ import { useNavigate } from 'react-router-dom'
 import { FileText } from 'lucide-react'
 import { Page } from '../components/Layout'
 import { Btn, Card, Field, Kpi, Modal, Pill, Tabs } from '../components/ui'
-import { useStore } from '../lib/store'
-import { ME, addAudit, certStatusLabel } from '../lib/selectors'
+import { useMe } from '../lib/store'
+import { addAudit, certStatusLabel } from '../lib/selectors'
 import { TODAY, fmtDate } from '../lib/format'
 
 type T = 'todos' | 'cert' | 'comp' | 'avencer' | 'venc'
 const TONE: Record<string, string> = { valid: 'green', expiring: 'amber', expired: 'red', validating: '' }
 
 export default function Certificados() {
-  const { db, update, toast } = useStore()
+  const { p, id: ME, edit, toast, name: meName } = useMe()
   const nav = useNavigate()
   const [tab, setTab] = useState<T>('todos')
   const [up, setUp] = useState(false)
   const [form, setForm] = useState({ title: '', source: '', code: '', expires: '', file: null as null | { name: string; size: string } })
   const fileRef = useRef<HTMLInputElement>(null)
-  const certs = db.certificates.filter((c) => c.ownerId === ME)
+  const certs = p.certificates.filter((c) => c.ownerId === ME)
   const isComp = (c: (typeof certs)[number]) => !c.code
   const cnt = { todos: certs.length, cert: certs.filter((c) => !isComp(c)).length, comp: certs.filter(isComp).length, avencer: certs.filter((c) => c.status === 'expiring').length, venc: certs.filter((c) => c.status === 'expired').length }
   const rows = certs.filter((c) => tab === 'todos' || (tab === 'cert' && !isComp(c)) || (tab === 'comp' && isComp(c)) || (tab === 'avencer' && c.status === 'expiring') || (tab === 'venc' && c.status === 'expired'))
@@ -25,9 +25,9 @@ export default function Certificados() {
 
   const send = () => {
     if (!form.title.trim() || !form.file) { toast('Informe o título e anexe o arquivo.'); return }
-    update((d) => {
-      d.certificates.unshift({ id: 'cert' + Date.now(), ownerId: ME, title: form.title, ext: form.file!.name.split('.').pop() ?? 'pdf', size: form.file!.size, source: form.source || '—', code: form.code || null, issued: TODAY, expires: form.expires || null, status: form.expires ? 'validating' : 'valid', courseId: null })
-      addAudit(d, 'Natan Muller', 'Certificados', 'Enviou', form.title, '', 'documento enviado')
+    edit((m, d) => {
+      m.certificates.unshift({ id: 'cert' + Date.now(), ownerId: ME, title: form.title, ext: form.file!.name.split('.').pop() ?? 'pdf', size: form.file!.size, source: form.source || '—', code: form.code || null, issued: TODAY, expires: form.expires || null, status: form.expires ? 'validating' : 'valid', courseId: null })
+      addAudit(d, meName, 'Certificados', 'Enviou', form.title, '', 'documento enviado')
     })
     setUp(false); setForm({ title: '', source: '', code: '', expires: '', file: null }); toast('Documento enviado para sua biblioteca.')
   }
