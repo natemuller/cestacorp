@@ -1,0 +1,47 @@
+[
+ {
+  "id": "k1",
+  "group": "Conhecimentos",
+  "label": "Legislação tributária estadual (ICMS)"
+ },
+ {
+  "id": "k2",
+  "group": "Conhecimentos",
+  "label": "Apuração do Simples Nacional"
+ },
+ {
+  "id": "k3",
+  "group": "Conhecimentos",
+  "label": "Sistema de gestão e HUBLX"
+ },
+ {
+  "id": "s1",
+  "group": "Habilidades",
+  "label": "Comunicação escrita com clientes"
+ },
+ {
+  "id": "s2",
+  "group": "Habilidades",
+  "label": "Excel e planilhas de controle"
+ },
+ {
+  "id": "s3",
+  "group": "Habilidades",
+  "label": "Organização e cumprimento de prazos"
+ },
+ {
+  "id": "t1",
+  "group": "Atitudes",
+  "label": "Trabalho em equipe"
+ },
+ {
+  "id": "t2",
+  "group": "Atitudes",
+  "label": "Proatividade"
+ },
+ {
+  "id": "t3",
+  "group": "Atitudes",
+  "label": "Foco no cliente"
+ }
+]

@@ -1,0 +1,44 @@
+{
+ "ana": {
+  "auto": {
+   "k1": "parcial",
+   "k2": "pleno",
+   "k3": "pleno",
+   "s1": "pleno",
+   "s2": "parcial",
+   "s3": "pleno",
+   "t1": "supera"
+  },
+  "autoComment": "Sinto que evoluí no Simples Nacional, mas ainda preciso de apoio em ICMS e na escrita com clientes.",
+  "goals": "Quero me tornar referência em tributos estaduais e chegar à coordenação fiscal, conduzindo o relacionamento técnico com os clientes do Simples Nacional.",
+  "gestora": {
+   "k1": "parcial",
+   "k2": "pleno",
+   "k3": "supera",
+   "s1": "parcial",
+   "s2": "parcial",
+   "s3": "pleno",
+   "t1": "pleno",
+   "t2": "pleno",
+   "t3": "pleno"
+  },
+  "gestoraComment": "Natan evoluiu muito no Simples Nacional. Precisa ganhar autonomia em ICMS e na escrita com clientes — sugiro manter esses pontos no PDI.",
+  "consenso": {
+   "k1": "parcial",
+   "k2": "pleno",
+   "k3": "supera",
+   "s1": "parcial",
+   "s2": "parcial",
+   "s3": "pleno",
+   "t1": "pleno",
+   "t2": "pleno",
+   "t3": "pleno"
+  },
+  "consensoComment": "Concordamos que Natan superou a expectativa em sistemas. ICMS e escrita seguem como foco do próximo ciclo.",
+  "suggestions": {
+   "k1": true,
+   "s1": true,
+   "s2": true
+  }
+ }
+}

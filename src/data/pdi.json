@@ -1,0 +1,127 @@
+{
+ "ana": {
+  "period": "Mar/2026 – Fev/2027",
+  "next": "2026-10-25",
+  "generatedFrom": "Avaliação de Desempenho Anual de 15/02/2026",
+  "goals": "Quero me tornar referência em tributos estaduais e chegar à coordenação fiscal, conduzindo o relacionamento técnico com os clientes do Simples Nacional.",
+  "path": [
+   {
+    "name": "Analista Júnior",
+    "year": "atual"
+   },
+   {
+    "name": "Analista Pleno",
+    "year": "2027"
+   },
+   {
+    "name": "Analista Sênior",
+    "year": "2029"
+   },
+   {
+    "name": "Coordenador Fiscal",
+    "year": "2031"
+   }
+  ],
+  "actions": [
+   {
+    "id": "p1",
+    "what": "Aprofundar legislação de ICMS",
+    "how": "Curso presencial + aplicar em 3 clientes do Simples",
+    "who": "Natan + Luana",
+    "due": "2026-11-28",
+    "courseId": "c10",
+    "track": "50% concluído",
+    "trackNote": "Atualizado em 08/10 por Luana",
+    "status": "progress"
+   },
+   {
+    "id": "p2",
+    "what": "Melhorar a comunicação escrita com clientes",
+    "how": "Curso CEFIS + revisão quinzenal de e-mails",
+    "who": "Natan",
+    "due": "2026-10-18",
+    "courseId": "c3",
+    "track": "Certificado em validação",
+    "trackNote": "Enviado em 14/10",
+    "status": "progress"
+   },
+   {
+    "id": "p3",
+    "what": "Dominar Excel intermediário",
+    "how": "Curso + planilha de conferência de notas",
+    "who": "Natan",
+    "due": "2026-09-15",
+    "courseId": "c11",
+    "track": "Sem atualização há 29 dias",
+    "trackNote": "Alerta enviado à gestora",
+    "status": "late"
+   },
+   {
+    "id": "p4",
+    "what": "Conduzir reunião mensal com 2 clientes",
+    "how": "Acompanhar 2 reuniões e depois conduzir",
+    "who": "Luana",
+    "due": "2026-06-30",
+    "courseId": null,
+    "track": "Concluído em 25/06",
+    "trackNote": "Feedback registrado",
+    "status": "done"
+   },
+   {
+    "id": "p5",
+    "what": "Mapear o processo de apuração mensal",
+    "how": "Documentar no Drive e apresentar ao time",
+    "who": "Natan",
+    "due": "2026-05-31",
+    "courseId": "c7",
+    "track": "Concluído em 28/05",
+    "trackNote": "Evidência anexada",
+    "status": "done"
+   }
+  ]
+ },
+ "drafts": {
+  "ana": {
+   "status": "draft",
+   "generatedAt": "24/10/2026",
+   "actions": [
+    {
+     "id": "d1",
+     "what": "Aprofundar legislação de ICMS",
+     "how": "Fazer o curso presencial do CRC-RS e aplicar o aprendizado na apuração de 3 clientes do Simples Nacional.",
+     "who": "Natan + Luana",
+     "due": "2027-02-28",
+     "courseId": "c10",
+     "follow": "Mensal · próxima conversa em 25/11/2026"
+    },
+    {
+     "id": "d2",
+     "what": "Melhorar a comunicação escrita com clientes",
+     "how": "Curso + revisão quinzenal de e-mails",
+     "who": "Natan",
+     "due": "2026-12-15",
+     "courseId": "c3",
+     "follow": "Quinzenal"
+    },
+    {
+     "id": "d3",
+     "what": "Dominar Excel intermediário",
+     "how": "Curso + planilha de conferência de notas",
+     "who": "Natan",
+     "due": "2027-01-31",
+     "courseId": "c11",
+     "follow": "Mensal"
+    },
+    {
+     "id": "d4",
+     "what": "Conduzir a reunião mensal com 2 clientes",
+     "how": "Acompanhar 2 reuniões e depois conduzir",
+     "who": "Luana",
+     "due": "2027-03-31",
+     "courseId": null,
+     "follow": "Mensal"
+    }
+   ]
+  }
+ }
+}

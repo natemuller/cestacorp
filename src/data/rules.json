@@ -1,0 +1,26 @@
+[
+ {
+  "label": "Concluir treinamento obrigatório",
+  "pts": 30
+ },
+ {
+  "label": "Concluir ação do PDI",
+  "pts": 50
+ },
+ {
+  "label": "Anexar certificado no prazo",
+  "pts": 10
+ },
+ {
+  "label": "Avaliar qualidade e eficácia",
+  "pts": 5
+ },
+ {
+  "label": "Mês sem atraso na trilha",
+  "pts": 20
+ },
+ {
+  "label": "Feedback de 25/50/75 dias realizado",
+  "pts": 15
+ }
+]

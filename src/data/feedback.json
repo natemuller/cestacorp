@@ -1,0 +1,41 @@
+{
+ "bruna": {
+  "stage": 25,
+  "scores": {
+   "adapt": 4,
+   "tasks": 3,
+   "tools": 4
+  },
+  "strengths": "Muito organizada, aprende rápido os lançamentos e já ajuda a equipe na conferência de documentos.",
+  "develop": "Ganhar confiança para tirar dúvidas e conhecer melhor o plano de contas.",
+  "agreed": "Concluir Word e Excel Básico; acompanhar 2 fechamentos com a Juliana.",
+  "employeeView": "Estou gostando muito da equipe. Ainda me perco no plano de contas, mas a Juliana tem ajudado bastante.",
+  "done": false
+ },
+ "diego": {
+  "stage": 50,
+  "scores": {
+   "adapt": 0,
+   "tasks": 0,
+   "tools": 0
+  },
+  "strengths": "",
+  "develop": "",
+  "agreed": "",
+  "employeeView": "",
+  "done": false
+ },
+ "larissa": {
+  "stage": 75,
+  "scores": {
+   "adapt": 0,
+   "tasks": 0,
+   "tools": 0
+  },
+  "strengths": "",
+  "develop": "",
+  "agreed": "",
+  "employeeView": "",
+  "done": false
+ }
+}

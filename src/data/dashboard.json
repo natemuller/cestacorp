@@ -1,0 +1,136 @@
+{
+ "months": [
+  "Jan",
+  "Fev",
+  "Mar",
+  "Abr",
+  "Mai",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Set",
+  "Out"
+ ],
+ "hoursTrilha": [
+  28,
+  36,
+  21,
+  50,
+  41,
+  20,
+  44,
+  38,
+  20,
+  32
+ ],
+ "hoursPdi": [
+  6,
+  6,
+  5,
+  7,
+  7,
+  5,
+  6,
+  6,
+  4,
+  5
+ ],
+ "trendTrilha": [
+  41,
+  48,
+  52,
+  58,
+  63,
+  66,
+  70,
+  73,
+  72,
+  78
+ ],
+ "trendPdi": [
+  20,
+  27,
+  31,
+  35,
+  41,
+  45,
+  50,
+  54,
+  57,
+  61
+ ],
+ "areas": [
+  [
+   "Contábil",
+   92
+  ],
+  [
+   "Pessoal",
+   85
+  ],
+  [
+   "Controles Internos",
+   81
+  ],
+  [
+   "Fiscal",
+   72
+  ],
+  [
+   "Financeiro",
+   66
+  ],
+  [
+   "Atendimento",
+   58
+  ]
+ ],
+ "feedbacks": [
+  {
+   "who": "Bruna Castro · Estagiária Contábil",
+   "what": "Feedback 25 dias · hoje",
+   "tag": "Hoje",
+   "tone": "amber",
+   "empId": "bruna"
+  },
+  {
+   "who": "Diego Ramos · Auxiliar de DP",
+   "what": "Feedback 50 dias · 17/10",
+   "tag": "Agendado",
+   "tone": "blue",
+   "empId": "diego"
+  },
+  {
+   "who": "Larissa Melo · Assistente Fiscal",
+   "what": "Feedback 75 dias · venceu 10/10",
+   "tag": "Atrasado",
+   "tone": "red",
+   "empId": "larissa"
+  }
+ ],
+ "lateEmployees": [
+  {
+   "id": "paula",
+   "late": 32,
+   "pdi": "1 atrasada"
+  },
+  {
+   "id": "ana",
+   "late": 18,
+   "pdi": "1 atrasada"
+  },
+  {
+   "id": "tiago",
+   "late": 15,
+   "pdi": "Em dia"
+  },
+  {
+   "id": "gabriel",
+   "late": 10,
+   "pdi": "1 atrasada"
+  }
+ ],
+ "quality": 4.3,
+ "efficacy": 3.9,
+ "pending": 7
+}

@@ -1,0 +1,74 @@
+[
+ {
+  "id": "primeiro",
+  "name": "Primeiro passo",
+  "desc": "Trilha iniciada",
+  "got": true
+ },
+ {
+  "id": "maratonista",
+  "name": "Maratonista",
+  "desc": "20h no trimestre",
+  "got": true
+ },
+ {
+  "id": "certificado",
+  "name": "Certificado+",
+  "desc": "5 certificados",
+  "got": true
+ },
+ {
+  "id": "feedback",
+  "name": "Feedback ok",
+  "desc": "Ciclo 25/50/75",
+  "got": true
+ },
+ {
+  "id": "pdi",
+  "name": "PDI em dia",
+  "desc": "3 meses sem atraso",
+  "got": false
+ },
+ {
+  "id": "trilha100",
+  "name": "Trilha 100%",
+  "desc": "Concluir obrigatórios",
+  "got": false
+ },
+ {
+  "id": "mentor",
+  "name": "Mentor",
+  "desc": "Ajude 3 colegas",
+  "got": false
+ },
+ {
+  "id": "avaliador",
+  "name": "Avaliador",
+  "desc": "Avalie 10 cursos",
+  "got": false
+ },
+ {
+  "id": "madrugador",
+  "name": "Madrugador",
+  "desc": "Curso antes do prazo",
+  "got": false
+ },
+ {
+  "id": "colab",
+  "name": "Colaborativo",
+  "desc": "Ajude 5 colegas",
+  "got": false
+ },
+ {
+  "id": "nota10",
+  "name": "Nota 10",
+  "desc": "Avaliação 'Supera'",
+  "got": false
+ },
+ {
+  "id": "veterano",
+  "name": "Veterano",
+  "desc": "2 anos de casa",
+  "got": false
+ }
+]

@@ -1,0 +1,162 @@
+[
+ {
+  "id": "au0",
+  "at": "2026-10-14T11:42",
+  "user": "Luana Thurow",
+  "module": "Certificados",
+  "action": "Validou",
+  "record": "Comunicação Verbal · Natan Muller",
+  "before": "Em validação",
+  "after": "Válido"
+ },
+ {
+  "id": "au1",
+  "at": "2026-10-14T11:20",
+  "user": "Natan Muller",
+  "module": "Trilha",
+  "action": "Enviou",
+  "record": "Comunicação Verbal · conclusão",
+  "before": "",
+  "after": "certificado + avaliação 4/5"
+ },
+ {
+  "id": "au2",
+  "at": "2026-10-13T17:05",
+  "user": "Luana Thurow",
+  "module": "PDI",
+  "action": "Editou",
+  "record": "Natan Muller · Excel intermediário",
+  "before": "Prazo 15/09/2026",
+  "after": "Prazo 31/01/2027"
+ },
+ {
+  "id": "au3",
+  "at": "2026-10-10T09:31",
+  "user": "Luana Thurow",
+  "module": "Cargos",
+  "action": "Editou",
+  "record": "Analista Fiscal Júnior",
+  "before": "Faixa R$ 3.000–3.800",
+  "after": "R$ 3.200–4.000"
+ },
+ {
+  "id": "au4",
+  "at": "2026-10-08T14:12",
+  "user": "Luana Thurow",
+  "module": "Trilhas",
+  "action": "Criou",
+  "record": "IA: fundamentos e aplicações",
+  "before": "",
+  "after": "vinculado a 9 cargos"
+ },
+ {
+  "id": "au5",
+  "at": "2026-10-01T08:00",
+  "user": "Sistema",
+  "module": "Avaliações",
+  "action": "Criou",
+  "record": "Ciclo 2026",
+  "before": "",
+  "after": "13 autoavaliações abertas"
+ },
+ {
+  "id": "au6",
+  "at": "2026-09-19T10:15",
+  "user": "Luana Thurow",
+  "module": "Colaboradores",
+  "action": "Criou",
+  "record": "Bruna Castro",
+  "before": "",
+  "after": "onboarding com 12 cursos"
+ },
+ {
+  "id": "au7",
+  "at": "2026-09-18T16:40",
+  "user": "Luana Thurow",
+  "module": "Trilhas",
+  "action": "Excluiu",
+  "record": "Curso “Excel 2010 (antigo)”",
+  "before": "ativo",
+  "after": "removido do catálogo"
+ },
+ {
+  "id": "au8",
+  "at": "2026-09-12T10:02",
+  "user": "Luana Thurow",
+  "module": "Usuários",
+  "action": "Criou",
+  "record": "Diego Ramos",
+  "before": "",
+  "after": "convite enviado"
+ },
+ {
+  "id": "au9",
+  "at": "2026-09-05T15:40",
+  "user": "Patrick Dartora",
+  "module": "Cargos",
+  "action": "Editou",
+  "record": "Coordenador Fiscal",
+  "before": "Faixa R$ 7.000–9.000",
+  "after": "R$ 7.500–9.500"
+ },
+ {
+  "id": "au10",
+  "at": "2026-08-28T09:10",
+  "user": "Luana Thurow",
+  "module": "Colaboradores",
+  "action": "Editou",
+  "record": "Paula Silveira",
+  "before": "Presencial",
+  "after": "Home office"
+ },
+ {
+  "id": "au11",
+  "at": "2026-08-20T13:25",
+  "user": "Natan Muller",
+  "module": "Certificados",
+  "action": "Enviou",
+  "record": "Código de Conduta Cestacorp",
+  "before": "",
+  "after": "certificado enviado"
+ },
+ {
+  "id": "au12",
+  "at": "2026-08-11T11:00",
+  "user": "Luana Thurow",
+  "module": "PDI",
+  "action": "Criou",
+  "record": "Tiago Vieira · Excel avançado",
+  "before": "",
+  "after": "prazo 30/11/2026"
+ },
+ {
+  "id": "au13",
+  "at": "2026-08-03T08:30",
+  "user": "Luana Thurow",
+  "module": "Colaboradores",
+  "action": "Criou",
+  "record": "Diego Ramos",
+  "before": "",
+  "after": "onboarding com 10 cursos"
+ },
+ {
+  "id": "au14",
+  "at": "2026-07-22T16:45",
+  "user": "Juliana Rocha",
+  "module": "Trilha",
+  "action": "Enviou",
+  "record": "LGPD · conclusão",
+  "before": "",
+  "after": "certificado + avaliação 5/5"
+ },
+ {
+  "id": "au15",
+  "at": "2026-07-06T09:00",
+  "user": "Luana Thurow",
+  "module": "Colaboradores",
+  "action": "Criou",
+  "record": "Larissa Melo",
+  "before": "",
+  "after": "onboarding com 9 cursos"
+ }
+]

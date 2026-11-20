@@ -1,0 +1,322 @@
+{
+ "nodes": [
+  {
+   "id": "d-ops",
+   "label": "Diretor de Operações",
+   "x": 149,
+   "y": 14,
+   "w": 218,
+   "h": 34,
+   "kind": "dir",
+   "roleId": null
+  },
+  {
+   "id": "pericia",
+   "label": "Perícia",
+   "x": 32,
+   "y": 82,
+   "w": 83,
+   "h": 32,
+   "kind": "out",
+   "roleId": null
+  },
+  {
+   "id": "fin",
+   "label": "Financeiro",
+   "x": 124,
+   "y": 82,
+   "w": 84,
+   "h": 32,
+   "kind": "out",
+   "roleId": null
+  },
+  {
+   "id": "fiscal-coord",
+   "label": "Coord. Fiscal",
+   "x": 216,
+   "y": 82,
+   "w": 84,
+   "h": 32,
+   "kind": "role",
+   "roleId": "fiscal-coord"
+  },
+  {
+   "id": "coord-dp",
+   "label": "Coord. de DP",
+   "x": 308,
+   "y": 82,
+   "w": 84,
+   "h": 32,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "coord-contabil",
+   "label": "Coord. Contábil",
+   "x": 400,
+   "y": 82,
+   "w": 83,
+   "h": 46,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "fiscal-senior",
+   "label": "Analista Fiscal Sênior",
+   "x": 216,
+   "y": 124,
+   "w": 84,
+   "h": 49,
+   "kind": "role",
+   "roleId": "fiscal-senior"
+  },
+  {
+   "id": "fiscal-pleno",
+   "label": "Analista Fiscal Pleno",
+   "x": 216,
+   "y": 182,
+   "w": 84,
+   "h": 49,
+   "kind": "role",
+   "roleId": "fiscal-pleno"
+  },
+  {
+   "id": "fiscal-junior",
+   "label": "Analista Fiscal Júnior",
+   "x": 216,
+   "y": 241,
+   "w": 84,
+   "h": 49,
+   "kind": "role",
+   "roleId": "fiscal-junior"
+  },
+  {
+   "id": "fiscal-assist",
+   "label": "Assistente Fiscal",
+   "x": 216,
+   "y": 300,
+   "w": 84,
+   "h": 49,
+   "kind": "role",
+   "roleId": "fiscal-assist"
+  },
+  {
+   "id": "fiscal-aux",
+   "label": "Auxiliar Fiscal",
+   "x": 216,
+   "y": 359,
+   "w": 84,
+   "h": 32,
+   "kind": "role",
+   "roleId": "fiscal-aux"
+  },
+  {
+   "id": "fiscal-estag",
+   "label": "Estagiário Fiscal",
+   "x": 216,
+   "y": 401,
+   "w": 84,
+   "h": 49,
+   "kind": "role",
+   "roleId": "fiscal-estag"
+  },
+  {
+   "id": "d-neg",
+   "label": "Diretor de Negócios e Relacionamento",
+   "x": 675,
+   "y": 14,
+   "w": 218,
+   "h": 52,
+   "kind": "dir",
+   "roleId": null
+  },
+  {
+   "id": "controles",
+   "label": "Coord. Controles Internos",
+   "x": 512,
+   "y": 100,
+   "w": 84,
+   "h": 62,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "sucesso",
+   "label": "Sucesso do Cliente",
+   "x": 604,
+   "y": 100,
+   "w": 84,
+   "h": 48,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "atend",
+   "label": "Atendimento",
+   "x": 696,
+   "y": 100,
+   "w": 84,
+   "h": 32,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "admin",
+   "label": "Administrativo",
+   "x": 788,
+   "y": 100,
+   "w": 84,
+   "h": 32,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "comercial",
+   "label": "Coord. Comercial",
+   "x": 880,
+   "y": 100,
+   "w": 84,
+   "h": 48,
+   "kind": "area",
+   "roleId": null
+  },
+  {
+   "id": "mkt",
+   "label": "Marketing",
+   "x": 972,
+   "y": 100,
+   "w": 84,
+   "h": 32,
+   "kind": "out",
+   "roleId": null
+  }
+ ],
+ "lines": [
+  [
+   258,
+   48,
+   258,
+   68
+  ],
+  [
+   73,
+   68,
+   441,
+   68
+  ],
+  [
+   73,
+   68,
+   73,
+   82
+  ],
+  [
+   166,
+   68,
+   166,
+   82
+  ],
+  [
+   258,
+   68,
+   258,
+   82
+  ],
+  [
+   350,
+   68,
+   350,
+   82
+  ],
+  [
+   441,
+   68,
+   441,
+   82
+  ],
+  [
+   784,
+   66,
+   784,
+   84
+  ],
+  [
+   554,
+   84,
+   1014,
+   84
+  ],
+  [
+   554,
+   84,
+   554,
+   100
+  ],
+  [
+   646,
+   84,
+   646,
+   100
+  ],
+  [
+   738,
+   84,
+   738,
+   100
+  ],
+  [
+   830,
+   84,
+   830,
+   100
+  ],
+  [
+   922,
+   84,
+   922,
+   100
+  ],
+  [
+   1014,
+   84,
+   1014,
+   100
+  ],
+  [
+   258,
+   114,
+   258,
+   124
+  ],
+  [
+   258,
+   173,
+   258,
+   182
+  ],
+  [
+   258,
+   231,
+   258,
+   241
+  ],
+  [
+   258,
+   290,
+   258,
+   300
+  ],
+  [
+   258,
+   349,
+   258,
+   359
+  ],
+  [
+   258,
+   391,
+   258,
+   401
+  ]
+ ]
+}

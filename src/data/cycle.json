@@ -1,0 +1,76 @@
+{
+ "name": "Ciclo 2026",
+ "opened": "2026-10-01",
+ "stages": [
+  {
+   "n": 1,
+   "name": "Autoavaliação",
+   "from": "01/10",
+   "to": "20/10",
+   "done": 10,
+   "total": 13
+  },
+  {
+   "n": 2,
+   "name": "Avaliação da gestora",
+   "from": "21/10",
+   "to": "31/10",
+   "done": 6,
+   "total": 13
+  },
+  {
+   "n": 3,
+   "name": "Consenso",
+   "from": "",
+   "to": "15/11",
+   "done": 2,
+   "total": 13
+  },
+  {
+   "n": 4,
+   "name": "Novo PDI",
+   "from": "",
+   "to": "30/11",
+   "done": 1,
+   "total": 13
+  }
+ ],
+ "rows": {
+  "ana": {
+   "auto": "draft",
+   "gestora": "none",
+   "consenso": "none",
+   "pdi": "none"
+  },
+  "juliana": {
+   "auto": "sent",
+   "gestora": "sent",
+   "consenso": "done",
+   "pdi": "done"
+  },
+  "marcos": {
+   "auto": "sent",
+   "gestora": "sent",
+   "consenso": "done",
+   "pdi": "progress"
+  },
+  "rafael": {
+   "auto": "sent",
+   "gestora": "progress",
+   "consenso": "none",
+   "pdi": "none"
+  },
+  "paula": {
+   "auto": "sent",
+   "gestora": "pending",
+   "consenso": "none",
+   "pdi": "none"
+  },
+  "tiago": {
+   "auto": "late",
+   "gestora": "none",
+   "consenso": "none",
+   "pdi": "none"
+  }
+ }
+}
